@@ -81,8 +81,17 @@ class PerfilUsuarioFragment : Fragment() {
         }
 
         user?.let {
-            // Exibe a foto do perfil usando a biblioteca Glide
-            Glide.with(this).load(it.photoUrl).into(userProfileImageView)
+            val photoUrl = it.photoUrl
+
+            if (photoUrl != null && photoUrl.toString().isNotEmpty()) {
+                Glide.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.mipmap.ic_default_user)
+                    .error(R.mipmap.ic_default_user)
+                    .into(userProfileImageView)
+            } else {
+                userProfileImageView.setImageResource(R.mipmap.ic_default_user)
+            }
         }
 
         registerButton.setOnClickListener {
